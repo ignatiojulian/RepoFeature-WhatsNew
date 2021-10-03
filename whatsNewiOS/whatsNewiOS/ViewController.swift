@@ -18,18 +18,38 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let items = WhatsNew(title: "Hai, What's New in this App!",
+        // Initialize default Configuration
+        var configuration = WhatsNewViewController.Configuration()
+        
+        // Customize Configuration to your needs
+        /// Setup Custom Theme
+        // configuration.backgroundColor = .white
+        // configuration.titleView.titleColor = .orange
+        // configuration.itemsView.titleFont = .systemFont(ofSize: 17)
+        // configuration.detailButton?.titleColor = .orange
+        // configuration.completionButton.backgroundColor = .orange
+        configuration.apply(theme: .darkBlue)
+        
+        /// Setup Custom Completion Button
+        configuration.completionButton.title = "Selanjutnya"
+        
+        /// Setup Custom Layout & Animation
+        configuration.itemsView.layout = .centered
+        configuration.itemsView.animation = .slideRight
+        
+        
+        let items = WhatsNew(title: "Hai, Apa yang terbaru dari Aplikasi BBA",
                              items: [
-                                WhatsNew.Item(title: "Add Favorite", subtitle: "Now you can add favorite into your contact", image: UIImage(systemName: "heart.text.square.fill")),
-                                WhatsNew.Item(title: "Camera", subtitle: "Cheer's there a camera", image: UIImage(systemName: "camera.circle"))
+                                WhatsNew.Item(title: "Fitur Favorite", subtitle: "Sekarang kamu bisa bertransaksi dari fitur favorit", image: UIImage(systemName: "heart.text.square.fill")),
+                                WhatsNew.Item(title: "QRIS", subtitle: "Sekarang QRIS sudah support di Mobile Banking BBA lho", image: UIImage(systemName: "camera.circle"))
                              ]
         )
         
         /*
          Standard theme is .red
-        */
-        guard let VC = WhatsNewViewController(whatsNew: items, theme: .darkBlue, versionStore: KeyValueWhatsNewVersionStore()) else { return }
-        present(VC, animated: true, completion: nil)
+         */
+        guard let whatsNewViewController = WhatsNewViewController(whatsNew: items, configuration: configuration, versionStore: KeyValueWhatsNewVersionStore()) else { return }
+        present(whatsNewViewController, animated: true, completion: nil)
     }
     
 }
